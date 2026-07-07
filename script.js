@@ -86,14 +86,38 @@ document.addEventListener('DOMContentLoaded', () => {
             submitBtn.disabled = true;
             submitBtn.innerHTML = 'Sending message <i class="fa-solid fa-spinner fa-spin"></i>';
 
-            // Simulate server delivery
-            setTimeout(() => {
+            // Web3Forms AJAX POST submission
+            fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    access_key: 'YOUR_ACCESS_KEY_HERE', // REPLACE WITH YOUR ACCESS KEY FROM WEB3FORMS.COM
+                    name: name,
+                    email: email,
+                    subject: subject,
+                    message: message
+                })
+            })
+            .then(async (response) => {
+                const json = await response.json();
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = btnOriginalHTML;
-                
-                displayFeedback('Message sent successfully! Xiaoan will contact you soon.', 'success');
-                contactForm.reset();
-            }, 1200);
+
+                if (response.status === 200 && json.success) {
+                    displayFeedback('Message sent successfully! Xiaoan will contact you soon.', 'success');
+                    contactForm.reset();
+                } else {
+                    displayFeedback(json.message || 'Something went wrong. Please try again.', 'error');
+                }
+            })
+            .catch((error) => {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = btnOriginalHTML;
+                displayFeedback('Network error. Please try again later.', 'error');
+            });
         });
     }
 
