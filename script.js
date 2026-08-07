@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     'Accept': 'application/json'
                 },
                 body: JSON.stringify({
-                    access_key: 'YOUR_ACCESS_KEY_HERE', // REPLACE WITH YOUR ACCESS KEY FROM WEB3FORMS.COM
+                    access_key: '54c436eb-d0b0-4235-912b-96104c3048c0', // Web3Forms Access Key for lishisu86@gmail.com
                     name: name,
                     email: email,
                     subject: subject,
